@@ -64,10 +64,7 @@ class MainActivity : ComponentActivity() {
         // ARTICLES
         setContent {
             TestKotilinTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    //WeatherScreen(weatherData)
-                    MiApp(articulos)
-                }
+                ArticleList(articulos)
             }
         }
 
@@ -75,16 +72,18 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun MiApp(articulos: List<Article>) {
+    fun ArticleList(articulos: List<Article>) {
         LazyColumn {
             items(articulos.size) { index ->
-                ArticuloItem(articulos[index])
+                ArticleItem(articulos[index])
             }
         }
     }
 
+
+
     @Composable
-    fun ArticuloItem(articulo: Article) {
+    fun ArticleItem(articulo: Article) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -165,21 +164,21 @@ fun WeatherApp() {
 
         val apiService = retrofit.create(ApiService::class.java)
 
-        apiService.obtenerArticulos().enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        apiService.obtenerArticulos().enqueue(object : Callback<Article> {
+            override fun onResponse(call: Call<Article>, response: Response<Article>) {
                 if (response.isSuccessful) {
-                    Log.d("MainActivity", "RespuAAAAAAAAAAAAAAaestaa!!!!!!!!!!!!!!!!!!!!!!!!!!: ${response.body()?.data}")
+                    Log.d("MainActivity", "RespuAAAAAAAAAAAAAAaestaa!!!!!!!!!!!!!!!!!!!!!!!!!!: ${response}")
 
-                    response.body()?.data?.let { data ->
-                        articulos.clear()
-                        articulos.addAll(data)
-                    }
+//                    response.body()?.data?.let { data ->
+//                        articulos.clear()
+//                        articulos.addAll(data)
+//                    }
                 } else {
                     Log.d("MainActivity", "R**************espuesta no exitosa: ${response.errorBody()}")
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<Article>, t: Throwable) {
                 Log.d("MainActivity", "ERRORRRRRRRRRRRRRRespuesta no exitosa: ")
             }
         })
@@ -192,33 +191,6 @@ fun WeatherApp() {
 
 
 
-    fun main() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://drupal-site.ddev.site/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService = retrofit.create(ApiService::class.java)
-
-        // Realizar la solicitud...
-        apiService.obtenerArticulos().enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    apiResponse?.data?.forEach { article ->
-                        println("Título del artículo: ${article.attributes.title}")
-                        // Procesar cada artículo como sea necesario
-                    }
-                } else {
-                    println("Respuesta no exitosa: ${response.errorBody()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                t.printStackTrace()
-            }
-        })
-    }
 
 /*
 @Composable

@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ApiService {
     @GET("jsonapi/views/articles/page_1")
-    fun obtenerArticulos(): Call<ApiResponse>
+    fun obtenerArticulos(): Call<Article>
 }
