@@ -1,5 +1,10 @@
 package com.example.testkotilin
 
+
+data class DrupalData (
+    val data: List<Article>
+)
+
 data class Article(
     val type: String,
     val id: String,
@@ -7,7 +12,8 @@ data class Article(
 )
 
 data class ArticleAttributes(
-    val drupal_internal__nid: Int,
     val title: String,
-    val body: String
+    //val body: Body
 )
+
+data class Body (val processed: String , val summary: String)

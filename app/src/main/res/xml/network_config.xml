@@ -4,4 +4,8 @@
 <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">api.openweathermap.org</domain>
 </domain-config>
+<domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">drupal-site.ddev.site</domain>
+</domain-config>
+
 </network-security-config>
